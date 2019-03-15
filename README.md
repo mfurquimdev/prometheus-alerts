@@ -2,6 +2,10 @@
 
 Alerta de aumento anormal no número de requisições por segundo, utilizando o prometheus com visualização no grafana.
 
+![Alerta de aumento anormal nas requisições](./img/Alerta_de_aumento_anormal_nas_requisicoes.png "Alerta de aumento anormal nas requisições")
+
+No gráfico acima, a linha em verde representa a taxa de requisições por segundo (suavizada fazendo a média em um minuto). A linha em amarelo é a predição de qual a taxa de requisição em dez minuto, com base em quinze minutos de histórico. A linha em azul é a média dos picos da taxa de requisições. Por fim, a área vermelha representa os períodos em que a predição é maior que a média dos máximo. Caso isso continue a acontecer por dez minutos, um alerta será lançado
+
 ## Aumento no número de requisições por segundo
 
 A simulação do aumento de requisições por segundo foi feita com um script em bash alterando o gerador de métricas. Mas antes disso, foi enviado uma requisição para zerar o número de requisições de erro (5xx). Isto garante que o número de requisições 2xx por segundo gerado é o mais próximo de 100% o possível. Ainda há algumas requisições 5xx, algo em torno de 60 requisições 5xx para cada 6000 2xx (1%).
