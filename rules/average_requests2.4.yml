@@ -1,0 +1,7 @@
+groups:
+- name: Alerta sobre média dos máximos
+  rules:
+
+  # Average over time (1m) to make data smoother
+  - record: http_requests_seconds_summary_count:avg1m_sum_irate1m
+    expr: avg_over_time( http_requests_seconds_summary_count:sum_irate1m[1m] )

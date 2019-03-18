@@ -1,0 +1,7 @@
+groups:
+- name: Alerta sobre média dos máximos
+  rules:
+
+  # Record max rate of requests over 1h based on smoothed data
+  - record: http_requests_seconds_summary_count:max1h_avg1m_sum_irate1m
+    expr: max_over_time( http_requests_seconds_summary_count:avg1m_sum_irate1m[1h] )

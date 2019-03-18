@@ -1,0 +1,7 @@
+groups:
+- name: Alerta sobre média dos máximos 2.7
+  rules:
+
+  # Predict rate of requests in 10m based on smoothed data
+  - record: http_requests_seconds_summary_count:predict15m_avg1m_sum_irate1m
+    expr: predict_linear( http_requests_seconds_summary_count:avg1m_sum_irate1m[15m], 600 ) > 0

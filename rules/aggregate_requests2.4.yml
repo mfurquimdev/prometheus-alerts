@@ -1,0 +1,10 @@
+groups:
+- name: Alerta sobre média dos máximos
+  rules:
+
+  # Rate of requests per second
+  - record: http_requests_seconds_summary_count:sum_irate1m
+    expr:
+      sum(
+        irate(http_requests_seconds_summary_count{uri="/resource/test-0001", status="2xx"}[1m])
+      ) by (uri, status)

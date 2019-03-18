@@ -1,0 +1,12 @@
+groups:
+- name: Alerta sobre média dos máximos 2.7
+  rules:
+
+  # Average over time (1m) to make rate of requests per second smoother
+  - record: http_requests_seconds_summary_count:avg1m_sum_irate1m
+    expr:
+      avg_over_time(
+        sum(
+          irate( http_requests_seconds_summary_count{uri="/resource/test-0001", status="2xx"}[1m] )
+        ) by (uri, status)
+      [1m:])
