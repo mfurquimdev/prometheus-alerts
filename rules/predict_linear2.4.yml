@@ -1,5 +1,5 @@
-groups:d
-- name: Alerta sobre média dos máximos
+groups:
+- name: Alerta sobre média dos máximos 2.4
   rules:
 
   # Predict rate of requests in 10m based on smoothed data

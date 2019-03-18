@@ -1,5 +1,5 @@
 groups:
-- name: Alerta sobre média dos máximos
+- name: Alerta sobre média dos máximos 2.4
   rules:
 
   # Rate of requests per second
