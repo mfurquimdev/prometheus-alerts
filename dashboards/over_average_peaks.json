@@ -1,0 +1,220 @@
+{
+  "__inputs": [
+    {
+      "name": "DS_LATEST",
+      "label": "Latest",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "prometheus",
+      "pluginName": "Prometheus"
+    }
+  ],
+  "__requires": [
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "5.2.2"
+    },
+    {
+      "type": "panel",
+      "id": "graph",
+      "name": "Graph",
+      "version": "5.0.0"
+    },
+    {
+      "type": "datasource",
+      "id": "prometheus",
+      "name": "Prometheus",
+      "version": "5.0.0"
+    }
+  ],
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": null,
+  "links": [],
+  "panels": [
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "${DS_LATEST}",
+      "decimals": 1,
+      "fill": 1,
+      "gridPos": {
+        "h": 11,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "hideEmpty": false,
+        "hideZero": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "percentage": false,
+      "pointradius": 0.5,
+      "points": true,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "sum(irate(http_requests_seconds_summary_count{uri=\"/resource/test-0001\", status=\"2xx\"}[1m])) by (uri)",
+          "format": "time_series",
+          "hide": true,
+          "intervalFactor": 1,
+          "legendFormat": "Current",
+          "refId": "A"
+        },
+        {
+          "expr": "avg_over_time(sum(irate(http_requests_seconds_summary_count{uri=\"/resource/test-0001\", status=\"2xx\"}[1m])) by (uri)[1m:])",
+          "format": "time_series",
+          "hide": false,
+          "intervalFactor": 1,
+          "legendFormat": "Average 1m",
+          "refId": "B"
+        },
+        {
+          "expr": "predict_linear(avg_over_time(sum(irate(http_requests_seconds_summary_count{uri=\"/resource/test-0001\", status=\"2xx\"}[1m])) by (uri)[1m:])[15m:], 600) > 0",
+          "format": "time_series",
+          "hide": false,
+          "intervalFactor": 1,
+          "legendFormat": "Predict 10m",
+          "refId": "C"
+        },
+        {
+          "expr": "max_over_time(avg_over_time(sum(irate(http_requests_seconds_summary_count{uri=\"/resource/test-0001\", status=\"2xx\"}[1m])) by (uri)[1m:])[1h:])",
+          "format": "time_series",
+          "hide": true,
+          "intervalFactor": 1,
+          "legendFormat": "Predict w/out avg 10m",
+          "refId": "D"
+        },
+        {
+          "expr": "avg_over_time(\n  max_over_time(\n    avg_over_time(\n      sum(\n        irate(http_requests_seconds_summary_count{uri=\"/resource/test-0001\", status=\"2xx\"}[1m])\n      ) by (uri)\n    [1m:])\n  [1h:])\n[1h:])",
+          "format": "time_series",
+          "hide": false,
+          "intervalFactor": 1,
+          "legendFormat": "Average of max over time",
+          "refId": "E"
+        },
+        {
+          "expr": "predict_linear(avg_over_time(sum(irate(http_requests_seconds_summary_count{uri=\"/resource/test-0001\", status=\"2xx\"}[1m])) by (uri)[1m:])[15m:], 600)\n>\navg_over_time(max_over_time(avg_over_time(sum(irate(http_requests_seconds_summary_count{uri=\"/resource/test-0001\", status=\"2xx\"}[1m])) by (uri)[1m:])[1h:])[1h:])",
+          "format": "time_series",
+          "hide": false,
+          "intervalFactor": 1,
+          "legendFormat": "Alert",
+          "refId": "F"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Alerta sobre média dos máximos",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    }
+  ],
+  "refresh": false,
+  "schemaVersion": 16,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "2019-03-14T19:18:24.000Z",
+    "to": "2019-03-14T21:53:45.000Z"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ],
+    "time_options": [
+      "5m",
+      "15m",
+      "1h",
+      "6h",
+      "12h",
+      "24h",
+      "2d",
+      "7d",
+      "30d"
+    ]
+  },
+  "timezone": "",
+  "title": "Alerta sobre média dos máximos",
+  "uid": "l6_sbZqiz",
+  "version": 4
+}
