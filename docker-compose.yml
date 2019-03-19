@@ -11,16 +11,15 @@ services:
       - 3000:32865
 
   grafana:
-    image: mfurquim/grafana:1.0.0
+    image: mfurquim/grafana:5.2.4
     build: ./grafana/
     ports:
       - 4000:3000
     volumes:
-      - ./grafana/provisioning/:/etc/grafana/provisioning/
       - grafana:/data
 
   prometheus:
-    image: mfurquim/prometheus:1.0.0
+    image: mfurquim/prometheus:v2.7.2
     build: ./prometheus/
     ports:
       - 9090:9090
