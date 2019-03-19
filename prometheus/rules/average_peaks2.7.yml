@@ -1,0 +1,10 @@
+groups:
+- name: Alerta sobre média dos máximos 2.7
+  rules:
+
+  # Average over time (3h) of peaks (max) rate of requests
+  - record: http_requests_seconds_summary_count:avg3h_max1h_avg1m_sum_irate1m
+    expr:
+      avg_over_time(
+       max_over_time( http_requests_seconds_summary_count:avg1m_sum_irate1m[1h] )
+      [3h:] )

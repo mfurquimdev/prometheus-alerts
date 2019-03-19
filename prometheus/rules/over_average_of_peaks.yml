@@ -1,0 +1,14 @@
+groups:
+- name: Alerta sobre média dos máximos
+  rules:
+
+  # If rate of requests per second is greater than the average of peaks
+  - alert: http_requests_seconds_summary_count_abnormal_increase
+    expr:
+      http_requests_seconds_summary_count:predict15m_avg1m_sum_irate1m
+      >
+      http_requests_seconds_summary_count:avg3h_max1h_avg1m_sum_irate1m
+    for: 10m
+    annotations:
+      description: Taxa de crescimento anormal da frequência de requisições por segundo, indicando quebra de recorde histórico. Versão do Centralizador '{{ $labels.component_version }}', Status '{{ $labels.status }}', Versão App '{{ $labels.device_app_version }}'.
+      summary: Caso a predição sobre a média da frequência de requisições http do aplicativo supere a média dos picos durante dez minutos, um alerta será lançado.
