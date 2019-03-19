@@ -1,0 +1,19 @@
+stages:
+  - build
+  - deploy
+
+build_job:
+  stage: build
+  script:
+    - cp -vR rules/*2.7.yml prometheus/rules/
+    - cp -vR rules/over_average_of_peaks.yml prometheus/rules/
+    - docker stack build -c docker-compose.yml barimetrics-alerts
+    tags:
+    - sandman-build
+
+deploy_job:
+  stage: deploy
+  script:
+    - docker stack deploy -c docker-compose.yml barimetrics-alerts
+  tags:
+    - sandman-deploy
