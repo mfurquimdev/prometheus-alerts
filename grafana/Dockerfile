@@ -1,1 +1,3 @@
-FROM flaviostutz/grafana:5.2.4
+FROM grafana/grafana:5.2.4
+
+ADD provisioning /etc/grafana/provisioning
